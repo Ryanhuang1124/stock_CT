@@ -1,11 +1,11 @@
 {
-    "name": "stock_ct",
-    "short_name": "stock_ct",
+    "name": "stock_ct_web",
+    "short_name": "stock_ct_web",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A Cheng-Tung security investment consultant app.",
+    "description": "A Cheng-Tung administrator web.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

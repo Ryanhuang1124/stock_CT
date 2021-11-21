@@ -18,21 +18,22 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A Cheng-Tung security investment consultant app.">
+  <meta name="description" content="A Cheng-Tung administrator web.">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="stock_ct">
+  <meta name="apple-mobile-web-app-title" content="stock_ct_web">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <title>stock_ct</title>
+  <title>stock_ct_web</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -97,5 +98,20 @@
       loadMainDartJs();
     }
   </script>
+  <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyBPp39X1UnytrBwPDXvd4T_1UhhBJo-0QE",
+        authDomain: "stock-ct.firebaseapp.com",
+        databaseURL: "https://stock-ct.firebaseio.com",
+        projectId: "stock-ct",
+        storageBucket: "stock-ct.appspot.com",
+        messagingSenderId: "260683563254",
+        appId: "1:260683563254:web:ca41ee7c30fa58b65a6cd7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>

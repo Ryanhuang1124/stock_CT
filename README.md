@@ -1,6 +1,6 @@
-# stock_ct
+# stock_ct_web
 
-A Cheng-Tung security investment consultant app.
+A Cheng-Tung administrator web.
 
 ## Getting Started
 

@@ -1,42 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 
-class MyColor {
-  static Color buttonYellow = const Color.fromRGBO(255, 190, 64, 1);
-  static Color buttonBlue = const Color(0xFFACB2E6);
-  static Color appThemeBackground = const Color(0xFF303455);
-  static Color segmentWhite = Colors.white.withOpacity(0.35);
-  static Color blockBackground = const Color.fromRGBO(37, 40, 66, 1);
 
-  static LinearGradient homePageLinear = const LinearGradient(colors: [
-    Color.fromRGBO(255, 255, 255, 0.4),
-    Color.fromRGBO(255, 255, 255, 0.1)
-  ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
-}
 
-class MyText {
-  static TextStyle myTextStyle(
-      {required double fontSize, FontWeight? weight, String? fontFamily}) {
-    return TextStyle(
-      fontSize: fontSize,
-      fontFamily: fontFamily ?? 'NotoSansTC',
-      fontWeight: weight ?? FontWeight.normal,
-    );
+class MyDIO{
+
+  static Future<bool> fcmSend({required String title,required String body}) async {
+    String serverKey ='AAAAPLHzgPY:APA91bHJXCUlKpBDZ5fDlo8g6iRwz9m8WEmXm_WI5p6MxAohWZoAGCm9KKs0GxaHcENwg7Ac48GwRntT34uwSCjpixKtfP36x5ZImgAfyEgAiSX91-iD3BR2W_lIXgipYdpNJ-Ok2-WW';
+    String uri = "https://fcm.googleapis.com/fcm/send";
+    String token = 'dMwmtG3sRLuJLbWKnJaEnH:APA91bFbvWnysCT2WmvQcMADdXtLYRc3B0dbetcWXjjx3gnM5Vdu7RAB6t0a_-QXGFfb9OcdlDRzxT5ajyoi6lHi5qLauHKgVAceONEGvs-AxTrrfHeJu889UsFYH_OLbqouXR7SIdA9';
+    var jsonData =json.encode({
+      "to": token,
+      "notification":{
+        "title": title,
+        "body": body,
+      }
+    });
+
+
+      var response = await Dio().post(uri,
+          data: jsonData,
+          options: Options(
+              headers: {
+                HttpHeaders.authorizationHeader: "key=$serverKey",
+              },
+              contentType: 'application/json',
+              validateStatus: (status) {
+                print(status);
+                return true;
+              }));
+
+      if(response.statusCode==200){
+        return true;
+      }else{
+        return false;
+      }
   }
-}
 
-class CloudFirestore {
-  static FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  static addDeviceToken({required String token}) {
-    firestore
-        .collection('DeviceToken').doc('token')
-        .set({
-          'token':token
-        })
-        .then((value) => print('success'))
-        .catchError((error) => print(error));
-  }
 }

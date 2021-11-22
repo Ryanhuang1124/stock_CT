@@ -9,11 +9,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int segmentValue=0;
-  Map<int,Widget> segments= <int,Widget>{
-    0:Text('推播通知',style: MyText.myTextStyle(fontSize: 16),),
-    1:Text('研究日刊',style: MyText.myTextStyle(fontSize: 16),),
-    2:Text('今日訊息',style: MyText.myTextStyle(fontSize: 16),),
+  int segmentValue = 0;
+  Map<int, Widget> segments = <int, Widget>{
+    0: Text(
+      '推播通知',
+      style: MyText.myTextStyle(fontSize: 16),
+    ),
+    1: Text(
+      '研究日刊',
+      style: MyText.myTextStyle(fontSize: 16),
+    ),
+    2: Text(
+      '今日訊息',
+      style: MyText.myTextStyle(fontSize: 16),
+    ),
   };
 
   @override
@@ -21,10 +30,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: MyColor.appThemeBackground,
       appBar: AppBar(
-        actions:const [Icon(Icons.settings_outlined,size: 25,)],
+        actions: const [
+          Icon(
+            Icons.settings_outlined,
+            size: 25,
+          )
+        ],
         backgroundColor: MyColor.appThemeBackground,
         elevation: 0,
-        title: Center(child: Text('承通投顧',style: MyText.myTextStyle(fontSize: 16),)),
+        title: Center(
+            child: Text(
+          '承通投顧',
+          style: MyText.myTextStyle(fontSize: 16),
+        )),
       ),
       body: Column(
         children: [
@@ -36,16 +54,16 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex:2,
+                    flex: 2,
                     child: CupertinoSlidingSegmentedControl<int>(
                         backgroundColor: MyColor.blockBackground,
                         thumbColor: MyColor.segmentWhite,
                         groupValue: segmentValue,
                         children: segments,
-                        onValueChanged: (selectedTab){
-                          if(selectedTab!=null){
+                        onValueChanged: (selectedTab) {
+                          if (selectedTab != null) {
                             setState(() {
-                              segmentValue=selectedTab;
+                              segmentValue = selectedTab;
                             });
                           }
                         }),

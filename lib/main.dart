@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_ct/toolbox.dart';
 import 'loginFlow/login_page.dart';
@@ -8,20 +9,20 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.',// description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
     playSound: true);
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message)
-async {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('A bg message just showed up :  ${message.data}');
 }
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   doFirebaseConfig();
@@ -30,11 +31,10 @@ void main() async{
 }
 
 void doFirebaseConfig() async {
-
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
@@ -63,8 +63,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   void initState() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -93,11 +91,11 @@ class _MyAppState extends State<MyApp> {
             context: context,
             builder: (_) {
               return AlertDialog(
-                title: Text(notification.title??''),
+                title: Text(notification.title ?? ''),
                 content: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body??'')],
+                    children: [Text(notification.body ?? '')],
                   ),
                 ),
               );
@@ -106,24 +104,27 @@ class _MyAppState extends State<MyApp> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
-        primaryColor:  MyColor.appThemeBackground,
+        primaryColor: MyColor.appThemeBackground,
         scaffoldBackgroundColor: MyColor.appThemeBackground,
       ),
       home: FutureBuilder(
-        future: FirebaseMessaging.instance.getToken(),
-        builder: (context,token) {
-          print(token.data);
-          if (token.hasData) {
-                CloudFirestore.addDeviceToken(token: token.data.toString());
-          }
-          return const LoginPage();
-        }
-      ),
+          future: FirebaseMessaging.instance.getToken(),
+          builder: (context, token) {
+            print(token.data);
+            if (token.hasData && token.data != null) {
+              return LoginPage(token: token.data.toString());
+            } else {
+              return const Center(
+                  child: CupertinoActivityIndicator(
+                radius: 20,
+              ));
+            }
+          }),
     );
   }
 }
-
